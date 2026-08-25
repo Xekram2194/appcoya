@@ -101,7 +101,21 @@
   Municipalidad — Sistema interno de actualización de datos.
   <br>
   <button class="admin-link" onclick="toggleAdmin()">Ver registros (Google Sheets)</button>
+  ·
+  <button class="admin-link" onclick="showPendingModal()">Ver personal pendiente</button>
 </footer>
+
+<div class="modal-overlay" id="pendingModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span class="modal-title">Personal pendiente de registrar</span>
+      <span class="modal-count" id="pendingCount">0</span>
+      <button class="modal-close" onclick="hidePendingModal()" aria-label="Cerrar">&times;</button>
+    </div>
+    <ul class="modal-list" id="pendingList"></ul>
+    <p class="modal-hint">Esta ventana se cierra sola en unos segundos.</p>
+  </div>
+</div>
 
 <script src="js/script.js"></script>
 

@@ -393,6 +393,103 @@ footer button.admin-link{
 }
 .btn-ghost:hover{border-color:var(--navy);}
 
+/* ---------- Pending-people modal ---------- */
+.modal-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(12,21,38,.55);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:40;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.modal-overlay.show{
+  display:flex;
+  opacity:1;
+}
+.modal-card{
+  background:var(--surface);
+  width:100%;
+  max-width:420px;
+  max-height:80vh;
+  border-radius:14px;
+  box-shadow:0 24px 60px -20px rgba(0,0,0,.45);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transform:scale(.96) translateY(6px);
+  transition:transform .2s ease;
+}
+.modal-overlay.show .modal-card{
+  transform:scale(1) translateY(0);
+}
+.modal-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:var(--navy);
+  color:#F4F1E8;
+  padding:14px 16px;
+  border-bottom:3px solid var(--gold);
+}
+.modal-title{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:15px;
+  flex:1;
+}
+.modal-count{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:600;
+  background:var(--gold);
+  color:var(--navy-deep);
+  border-radius:20px;
+  padding:2px 9px;
+}
+.modal-close{
+  background:none;
+  border:none;
+  color:#F4F1E8;
+  font-size:20px;
+  line-height:1;
+  cursor:pointer;
+  padding:0 0 0 4px;
+}
+.modal-list{
+  list-style:none;
+  margin:0;
+  padding:6px 0;
+  overflow-y:auto;
+}
+.modal-list li{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  padding:9px 16px;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+.modal-list li:last-child{border-bottom:none;}
+.modal-list li .name{font-weight:600; color:var(--text);}
+.modal-list li .role{font-size:11.5px; color:var(--text-muted);}
+.modal-list li.empty{
+  text-align:center;
+  color:var(--success);
+  font-weight:600;
+  padding:22px 16px;
+}
+.modal-hint{
+  text-align:center;
+  font-size:11px;
+  color:var(--text-muted);
+  margin:0;
+  padding:8px 16px 14px;
+}
+
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
 }

@@ -71,6 +71,76 @@ function closeRegistration(){
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
+// ---------- Modal: personal pendiente de registrar ----------
+const PENDING_STORAGE_KEY = 'coya_registrados_v1';
+const pendingModal = document.getElementById('pendingModal');
+const pendingList = document.getElementById('pendingList');
+const pendingCount = document.getElementById('pendingCount');
+let pendingModalTimer = null;
+
+// Foto fija de quienes ya figuraban registrados en la hoja de Google Sheets
+// al 2026-08-25. Sirve como línea base para todos los dispositivos; los
+// registros hechos desde este navegador se suman aparte vía localStorage.
+const PRE_REGISTRADOS = [
+  "71838852", "73585590", "47296788", "71512126", "60293013",
+  "73582476", "74390825", "47242249", "75475432", "23952927",
+  "45707388", "47778642", "75951233", "71512116", "71081161",
+  "76425971", "41663822", "75794861", "70457643", "70032185",
+  "45078049", "41662793", "71552401", "23930413", "44468435"
+];
+
+function getRegisteredSet(){
+  let stored = [];
+  try{
+    stored = JSON.parse(localStorage.getItem(PENDING_STORAGE_KEY) || '[]');
+  }catch(err){
+    stored = [];
+  }
+  return new Set([...PRE_REGISTRADOS, ...stored]);
+}
+
+function markRegistered(dni){
+  const set = getRegisteredSet();
+  set.add(dni);
+  localStorage.setItem(PENDING_STORAGE_KEY, JSON.stringify([...set]));
+}
+
+function getPendientes(){
+  const registered = getRegisteredSet();
+  return Object.keys(PADRON)
+    .filter(dni => !registered.has(dni))
+    .map(dni => ({ dni, nombre: PADRON[dni].nombre, cargo: PADRON[dni].cargo }))
+    .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+}
+
+function renderPendingList(){
+  const pendientes = getPendientes();
+  pendingCount.textContent = pendientes.length;
+  pendingList.innerHTML = pendientes.length
+    ? pendientes.map(p => `<li><span class="name">${p.nombre}</span><span class="role">${p.cargo}</span></li>`).join('')
+    : '<li class="empty">Todo el personal ha sido registrado.</li>';
+}
+
+function showPendingModal(){
+  renderPendingList();
+  pendingModal.classList.add('show');
+  clearTimeout(pendingModalTimer);
+  pendingModalTimer = setTimeout(hidePendingModal, 6000);
+}
+
+function hidePendingModal(){
+  pendingModal.classList.remove('show');
+  clearTimeout(pendingModalTimer);
+}
+
+pendingModal.addEventListener('click', (e) => {
+  if(e.target === pendingModal) hidePendingModal();
+});
+
+// Muestra automáticamente quiénes faltan por registrar cada vez que se
+// carga o refresca la página, y se cierra sola a los pocos segundos.
+showPendingModal();
+
 let matchedRecord = null;
 
 function evaluateDni(){
@@ -202,6 +272,9 @@ function showSuccess(registro){
     <div><span>Correo</span><span>${registro.correo}</span></div>
   `;
   sv.classList.add('show');
+
+  markRegistered(registro.dni);
+  showPendingModal();
 }
 
 function resetForm(){
