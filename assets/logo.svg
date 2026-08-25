@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="CGR">
+  <rect width="200" height="200" rx="16" fill="#E30613"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round">
+    <path d="M42 78 C 78 34, 148 40, 168 78 C 138 62, 92 60, 60 92"/>
+    <path d="M50 96 C 84 60, 140 66, 156 94 C 130 82, 96 80, 68 106"/>
+    <path d="M60 112 C 88 88, 128 92, 140 110"/>
+  </g>
+  <text x="100" y="168" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="56" fill="#FFFFFF">CGR</text>
+</svg>
